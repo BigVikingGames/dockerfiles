@@ -1,0 +1,18 @@
+pidfile /var/run/redis.pid
+port 6379
+timeout 0
+tcp-keepalive 0
+loglevel notice
+databases 16
+    save 900 1
+    save 300 10
+    save 60 10000
+dir /data
+requirepass $REDIS_REQUIREPASS
+maxclients $REDIS_MAXCLIENTS
+maxmemory $REDIS_MAXMEMORY
+maxmemory-policy $REDIS_MAXMEMORY_POLICY
+activerehashing yes
+client-output-buffer-limit normal 0 0 0
+client-output-buffer-limit slave 256mb 64mb 60
+client-output-buffer-limit pubsub 32mb 8mb 60

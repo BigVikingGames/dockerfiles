@@ -1,0 +1,12 @@
+gitlab:
+    image: gitlab/gitlab-ce
+    ports:
+        - "8000:80/tcp"
+    hostname: gitlab
+
+runner:
+    image: bigvikinggames/gitlab-runner
+    volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock"
+    links:
+        - "gitlab:gitlab"

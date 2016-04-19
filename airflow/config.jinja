@@ -1,0 +1,178 @@
+[core]
+# The home folder for airflow, default is ~/airflow
+airflow_home = {{ '/usr/local/airflow' | env_override('AIRFLOW__CORE__AIRFLOW_HOME') }}
+
+# The folder where your airflow pipelines live, most likely a
+# subfolder in a code repository
+dags_folder = {{ '/usr/local/airflow/dags' | env_override('AIRFLOW__CORE__DAGS_FOLDER') }}
+
+# The folder where airflow should store its log files. This location
+base_log_folder = {{ '/usr/local/airflow/logs' | env_override('AIRFLOW__CORE__BASE_LOG_FOLDER') }}
+
+# An S3 location can be provided for log backups
+# For S3, use the full URL to the base folder (starting with "s3://...")
+s3_log_folder = {{ 'None' | env_override('AIRFLOW__CORE__S3_LOG_FOLDER') }}
+
+# The executor class that airflow should use. Choices include
+# SequentialExecutor, LocalExecutor, CeleryExecutor
+executor = {{ 'CeleryExecutor' | env_override('AIRFLOW__CORE__EXECUTOR') }}
+
+# The SqlAlchemy connection string to the metadata database.
+# SqlAlchemy supports many different database engine, more information
+# their website
+sql_alchemy_conn = {{ 'postgresql+psycopg2://airflow:airflow@postgres:5432/airflow' | env_override('AIRFLOW__CORE__SQL_ALCHEMY_CONN') }}
+
+# The amount of parallelism as a setting to the executor. This defines
+# the max number of task instances that should run simultaneously
+# on this airflow installation
+parallelism = {{ '32' | env_override('AIRFLOW__CORE__PARALLELISM') }}
+
+# The number of task instances allowed to run concurrently by the scheduler
+dag_concurrency = {{ '16' | env_override('AIRFLOW__CORE__DAG_CONCURRENCY') }}
+
+# The maximum number of active DAG runs per DAG
+max_active_runs_per_dag = {{ '16' | env_override('AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG') }}
+
+# Whether to load the examples that ship with Airflow. It's good to
+# get started, but you probably want to set this to False in a production
+# environment
+load_examples = {{ 'true' | env_override('AIRFLOW__CORE__LOAD_EXAMPLES') }}
+
+# Where your Airflow plugins are stored
+plugins_folder = {{ '/usr/local/airflow/plugins' | env_override('AIRFLOW__CORE__PLUGINS_FOLDER') }}
+
+# Secret key to save connection passwords in the db
+fernet_key = {{ '' | env_override('AIRFLOW__CORE__FERNET_KEY') }}
+
+# Whether to disable pickling dags
+donot_pickle = {{ 'false' | env_override('AIRFLOW__CORE__DONOT_PICKLE') }}
+
+[webserver]
+# The base url of your website as airflow cannot guess what domain or
+# cname you are using. This is use in automated emails that
+# airflow sends to point links to the right web server
+base_url = {{ 'http://localhost:8080' | env_override('AIRFLOW__WEBSERVER__BASE_URL') }}
+
+# The ip specified when starting the web server
+web_server_host = {{ '0.0.0.0' | env_override('AIRFLOW__WEBSERVER__WEB_SERVER_HOST') }}
+
+# The port on which to run the web server
+web_server_port = {{ '8080' | env_override('AIRFLOW__WEBSERVER__WEB_SERVER_PORT') }}
+
+# Secret key used to run your flask app
+secret_key = {{ 'temporary_key' | env_override('AIRFLOW__WEBSERVER__SECRET_KEY') }}
+
+# Number of workers to run the Gunicorn web server
+workers = {{ '4' | env_override('AIRFLOW__WEBSERVER__WORKERS') }}
+
+# The worker class gunicorn should use. Choices include
+# sync (default), eventlet, gevent
+worker_class = {{ 'sync' | env_override('AIRFLOW__WEBSERVER__WORKER_CLASS') }}
+
+# Expose the configuration file in the web server
+expose_config = {{ 'true' | env_override('AIRFLOW__WEBSERVER__EXPOSE_CONFIG') }}
+
+# Set to true to turn on authentication : http://pythonhosted.org/airflow/installation.html#web-authentication
+authenticate = {{ 'false' | env_override('AIRFLOW__WEBSERVER__AUTHENTICATE') }}
+
+# Filter the list of dags by owner name (requires authentication to be enabled)
+filter_by_owner = {{ 'false' | env_override('AIRFLOW__WEBSERVER__FILTER_BY_OWNER') }}
+
+[smtp]
+# If you want airflow to send emails on retries, failure, and you want to
+# the airflow.utils.send_email function, you have to configure an smtp
+# server here
+smtp_host = {{ 'localhost' | env_override('AIRFLOW__SMTP__SMTP_HOST') }}
+smtp_starttls = {{ 'true' | env_override('AIRFLOW__SMTP__SMTP_STARTTLS') }}
+smtp_user = {{ 'airflow' | env_override('AIRFLOW__SMTP__SMTP_USER') }}
+smtp_port = {{ '25' | env_override('AIRFLOW__SMTP__SMTP_PORT') }}
+smtp_password = {{ 'airflow' | env_override('AIRFLOW__SMTP__SMTP_PASSWORD') }}
+smtp_mail_from = {{ 'airflow@airflow.local' | env_override('AIRFLOW__SMTP__SMTP_MAIL_FROM') }}
+
+[celery]
+# This section only applies if you are using the CeleryExecutor in
+# [core] section above
+
+# The app name that will be used by celery
+celery_app_name = {{ 'airflow.executors.celery_executor' | env_override('AIRFLOW__CELERY__CELERY_APP_NAME') }}
+
+# The concurrency that will be used when starting workers with the
+# "airflow worker" command. This defines the number of task instances that
+# a worker will take, so size up your workers based on the resources on
+# your worker box and the nature of your tasks
+celeryd_concurrency = {{ '16' | env_override('AIRFLOW__CELERY__CELRYD_CONCURRENCY') }}
+
+# When you start an airflow worker, airflow starts a tiny web server
+# subprocess to serve the workers local log files to the airflow main
+# web server, who then builds pages and sends them to users. This defines
+# the port on which the logs are served. It needs to be unused, and open
+# visible from the main web server to connect into the workers.
+worker_log_server_port = {{ '8793' | env_override('AIRFLOW__CELERY__WORKER_LOG_SERVER_PORT') }}
+
+# The Celery broker URL. Celery supports RabbitMQ, Redis and experimentally
+# a sqlalchemy database. Refer to the Celery documentation for more
+# information.
+broker_url = {{ 'redis://redis/0' | env_override('AIRFLOW__CELERY__BROKER_URL') }}
+
+# Another key Celery setting
+#celery_result_backend = amqp://airflow:airflow@rabbitmq:5672/airflow
+celery_result_backend = {{ 'redis://redis/0' | env_override('AIRFLOW__CELERY__CELERY_RESULT_BACKEND') }}
+
+# Celery Flower is a sweet UI for Celery. Airflow has a shortcut to start
+# it `airflow flower`. This defines the port that Celery Flower runs on
+flower_port = {{ '5555' | env_override('AIRFLOW__CELERY__FLOWER_PORT') }}
+
+# Default queue that tasks get assigned to and that worker listen on.
+default_queue = {{ 'default' | env_override('AIRFLOW__CELERY__DEFAULT_QUEUE') }}
+
+[scheduler]
+# Task instances listen for external kill signal (when you clear tasks
+# from the CLI or the UI), this defines the frequency at which they should
+# listen (in seconds).
+job_heartbeat_sec = {{ '5' | env_override('AIRFLOW__SCHEDULER__JOB_HEARTBEAT_SEC') }}
+
+# The scheduler constantly tries to trigger new tasks (look at the
+# scheduler section in the docs for more information). This defines
+# how often the scheduler should run (in seconds).
+scheduler_heartbeat_sec = {{ '5' | env_override('AIRFLOW__SCHEDULER__SCHEDULER_HEARTBEAT_SEC') }}
+
+# Statsd (https://github.com/etsy/statsd) integration settings
+statsd_on = {{ 'false' | env_override('AIRFLOW__SCHEDULER__STATSD_ON') }}
+statsd_host = {{ 'localhost' | env_override('AIRFLOW__SCHEDULER__STATSD_HOST') }}
+statsd_port = {{ '8125' | env_override('AIRFLOW__SCHEDULER__STATSD_PORT') }}
+statsd_prefix = {{ 'airflow' | env_override('AIRFLOW__SCHEDULER__STATSD_PREFIX') }}
+
+[mesos]
+# Mesos master address which MesosExecutor will connect to.
+master = {{ 'localhost:5050' | env_override('AIRFLOW__MESOS__MASTER') }}
+
+# The framework name which Airflow scheduler will register itself as on mesos
+framework_name = {{ 'Airflow' | env_override('AIRFLOW__MESOS__FRAMEWORK_NAME') }}
+
+# Number of cpu cores required for running one task instance using
+# 'airflow run <dag_id> <task_id> <execution_date> --local -p <pickle_id>'
+# command on a mesos slave
+task_cpu = {{ '1' | env_override('AIRFLOW__MESOS__TASK_CPU') }}
+
+# Memory in MB required for running one task instance using
+# 'airflow run <dag_id> <task_id> <execution_date> --local -p <pickle_id>'
+# command on a mesos slave
+task_memory = {{ '256' | env_override('AIRFLOW__MESOS__TASK_MEMORY') }}
+
+# Enable framework checkpointing for mesos
+# See http://mesos.apache.org/documentation/latest/slave-recovery/
+checkpoint = {{ 'false' | env_override('AIRFLOW__MESOS__CHECKPOINT') }}
+
+# Failover timeout in milliseconds.
+# When checkpointing is enabled and this option is set, Mesos waits until the configured timeout for
+# the MesosExecutor framework to re-register after a failover. Mesos shuts down running tasks if the
+# MesosExecutor framework fails to re-register within this timeframe.
+failover_timeout = {{ '604800' | env_override('AIRFLOW__MESOS__FAILOVER_TIMEOUT') }}
+
+# Enable framework authentication for mesos
+# See http://mesos.apache.org/documentation/latest/configuration/
+authenticate = {{ 'false' | env_override('AIRFLOW__MESOS__AUTHENTICATE') }}
+
+# Mesos credentials, if authentication is enabled
+default_principal = {{ 'admin' | env_override('AIRFLOW__MESOS__DEFAULT_PRINCIPAL') }}
+default_secret = {{ 'admin' | env_override('AIRFLOW__MESOS__DEFAULT_SECRET') }}

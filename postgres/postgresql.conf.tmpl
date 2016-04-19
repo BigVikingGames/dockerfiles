@@ -1,0 +1,33 @@
+listen_addresses = '$LISTEN_ADDRESSES'
+max_connections = $MAX_CONNECTIONS
+
+work_mem = $WORK_MEM
+maintenance_work_mem = $MAINTENANCE_WORK_MEM
+
+dynamic_shared_memory_type = posix
+shared_buffers = $SHARED_BUFFERS
+effective_cache_size = $EFFECTIVE_CACHE_SIZE
+
+wal_buffers = $WAL_BUFFERS
+max_wal_size = $MAX_WAL_SIZE
+checkpoint_completion_target = $CHECKPOINT_COMPLETION_TARGET
+default_statistics_target = $DEFAULT_STATISTICS_TARGET
+
+password_encryption = '$PASSWORD_ENCRYPTION'
+
+shared_preload_libraries = '$SHARED_PRELOAD_LIBRARIES'
+
+datestyle = 'iso, mdy'
+
+log_line_prefix = '$LOG_LINE_PREFIX'
+log_min_duration_statement = $LOG_MIN_DURATION_STATEMENT
+
+auto_explain.log_analyze = '$AUTO_EXPLAIN_LOG_ANALYZE'
+auto_explain.log_min_duration = $AUTO_EXPLAIN_LOG_MIN_DURATION
+
+lc_messages = 'en_US.utf8'
+lc_monetary = 'en_US.utf8'
+lc_numeric = 'en_US.utf8'
+lc_time = 'en_US.utf8'
+
+default_text_search_config = 'pg_catalog.english'
