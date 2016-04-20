@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 # This is a modified version of the official redis docker-entrypoint.sh
@@ -12,15 +12,14 @@ REDIS_REQUIREPASS=${REDIS_REQUIREPASS:-redis}
 
 export REDIS_MAXCLIENTS REDIS_MAXMEMORY REDIS_MAXMEMORY_POLICY REDIS_REQUIREPASS
 
-eval "cat <<EOF
-$(</redis.conf.tmpl)
-EOF
-" > /data/redis.conf
+eval "cat <<-EOF
+	$(</redis.conf.tmpl)
+	EOF" > /data/redis.conf
 
 # allow the container to be started with `--user`
 if [ "$1" = 'redis-server' -a "$(id -u)" = '0' ]; then
-    chown -R redis .
-    exec gosu redis "$0" "$@"
+	chown -R redis .
+	exec gosu redis "$0" "$@"
 fi
 
 exec "$@"
