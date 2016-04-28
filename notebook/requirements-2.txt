@@ -12,3 +12,4 @@ seaborn
 scikit-learn
 Jinja2
 annoy
+palladium
