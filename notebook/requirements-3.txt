@@ -1,1 +1,12 @@
+pandas
+numpy
+scipy
+matplotlib
+statsmodels
+postgres
+psycopg2
+SQLAlchemy
+seaborn
+scikit-learn
+Jinja2
 palladium
