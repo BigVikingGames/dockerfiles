@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # Just in case you're doing it wrong
 if [ "$1" == "" ]; then

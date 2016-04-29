@@ -1,6 +1,6 @@
 FROM bigvikinggames/python
 
-ENV AIRFLOW_VERSION=1.6.2
+ENV AIRFLOW_VERSION=1.7
 ENV AIRFLOW_HOME=/usr/local/airflow
 RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/apt/sources.list.d/openjdk-r-ppa-trusty.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86F44E2A \
