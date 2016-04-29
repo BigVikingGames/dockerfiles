@@ -1,7 +1,9 @@
 FROM bigvikinggames/python
 
-ENV AIRFLOW_VERSION=1.7
-ENV AIRFLOW_HOME=/usr/local/airflow
+ARG AIRFLOW_VERSION
+ENV AIRFLOW_VERSION ${AIRFLOW_VERSION:-1.7}
+
+ENV AIRFLOW_HOME /usr/local/airflow
 RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/apt/sources.list.d/openjdk-r-ppa-trusty.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86F44E2A \
     && apt-get update \
@@ -11,11 +13,11 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/
         liblapack-dev \
         libatlas-base-dev \
         gfortran \
-    && pip install airflow==${AIRFLOW_VERSION} \
-    && pip install airflow[celery]==${AIRFLOW_VERSION} \
-    && pip install airflow[postgres]==${AIRFLOW_VERSION} \
-    && pip install airflow[mysql]==${AIRFLOW_VERSION} \
-    && pip install airflow[s3]==${AIRFLOW_VERSION} \
+    && pip install "airflow>=${AIRFLOW_VERSION}" \
+    && pip install "airflow[celery]>=${AIRFLOW_VERSION}" \
+    && pip install "airflow[postgres]>=${AIRFLOW_VERSION}" \
+    && pip install "airflow[mysql]>=${AIRFLOW_VERSION}" \
+    && pip install "airflow[s3]>=${AIRFLOW_VERSION}" \
     && pip install celery[redis] \
     && pip install scipy \
     && pip install scikit-learn \
