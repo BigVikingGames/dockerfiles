@@ -10,6 +10,8 @@ default:
 
 .PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red
 
+all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner
+
 ubuntu notebook nodejs postgres gitlab-runner:
 	$(BUILD) $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
