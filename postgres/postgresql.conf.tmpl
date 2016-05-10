@@ -19,8 +19,13 @@ shared_preload_libraries = '$SHARED_PRELOAD_LIBRARIES'
 
 datestyle = 'iso, mdy'
 
+syslog_facility = $SYSLOG_FACILITY
+
 log_line_prefix = '$LOG_LINE_PREFIX'
 log_min_duration_statement = $LOG_MIN_DURATION_STATEMENT
+log_min_messages = $LOG_MIN_MESSAGES
+log_min_error_statement = $LOG_MIN_ERROR_STATEMENT
+client_min_messages = $CLIENT_MIN_MESSAGES
 
 auto_explain.log_analyze = '$AUTO_EXPLAIN_LOG_ANALYZE'
 auto_explain.log_min_duration = $AUTO_EXPLAIN_LOG_MIN_DURATION
