@@ -50,6 +50,12 @@ airflow: python
 		docker push $(ORG)/$(@):1.7; \
 	fi;
 
+ratticdb: python
+	$(BUILD) $(ORG)/$(@) ./$(@)/
+	if [ "$(PUSH)" == "true" ]; then \
+		docker push $(ORG)/$(@):latest; \
+	fi;
+
 node-red: nodejs
 	$(BUILD) $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \

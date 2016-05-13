@@ -1,0 +1,27 @@
+[ratticweb]
+debug = false
+timezone = America/Toronto
+secretkey = {{ 'eyFkep6bA6dfJUdnjSPVmKtmJcZBHwpF8hdj26AaZPAh7674327yRr47z4PYx62P' | env_override('SECRET_KEY') }}
+hostname = {{ 'localhost' | env_override('SITE_NAME') }}
+ssl_header = HTTP_X_FORWARDED_PROTOCOL
+ssl_header_value = https
+
+[filepaths]
+static = /home/rattic/RatticWeb-{{ '1.2.2' | env_override('RATTIC_VERSION') }}/static
+
+[database]
+engine = django.db.backends.postgresql_psycopg2
+host = {{ 'localhost' | env_override('DATABASE_HOST') }}
+port = {{ '5432' | env_override('DATABASE_PORT') }}
+name = {{ 'postgres' | env_override('DATABASE_NAME') }}
+user = {{ 'postgres' | env_override('DATABASE_USER') }}
+password = {{ 'postgres' | env_override('DATABASE_PASSWORD') }}
+
+[email]
+backend = django.core.mail.backends.smtp.EmailBackend
+host = {{ 'localhost' | env_override('EMAIL_HOST') }}
+port = {{ '25' | env_override('EMAIL_PORT') }}
+usetls = {{ 'false' | env_override('EMAIL_USETLS') }}
+user = {{ '' | env_override('EMAIL_USER') }}
+password = {{ '' | env_override('EMAIL_PASSWORD') }}
+from_email = {{ 'root@localhost' | env_override('EMAIL_FROMEMAIL') }}

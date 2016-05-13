@@ -1,0 +1,15 @@
+postgres:
+  image: bigvikinggames/postgres
+  environment:
+    POSTGRES_PASSWORD: ratticdb
+
+ratticdb:
+  build: ./
+  links:
+    - postgres
+  ports:
+    - "8000:80"
+  environment:
+    SITE_NAME: 192.168.99.102
+    DATABASE_HOST: postgres
+    DATABASE_PASSWORD: ratticdb
