@@ -8,7 +8,7 @@ PUSH:=false
 default:
 	@echo "Please read Makefile, there is no default task!"
 
-.PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red ratticdb
+.PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red ratticdb sentry
 
 all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner
 
@@ -51,6 +51,12 @@ airflow: python
 	fi;
 
 ratticdb: python
+	$(BUILD) $(ORG)/$(@) ./$(@)/
+	if [ "$(PUSH)" == "true" ]; then \
+		docker push $(ORG)/$(@):latest; \
+	fi;
+
+sentry: python
 	$(BUILD) $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
 		docker push $(ORG)/$(@):latest; \

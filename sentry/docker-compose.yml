@@ -1,0 +1,23 @@
+redis:
+  image: bigvikinggames/redis
+  environment:
+    - "REDIS_REQUIREPASS=redis"
+
+postgres:
+  image: bigvikinggames/postgres
+  environment:
+    - "POSTGRES_PASSWORD=postgres"
+
+sentry:
+  build: ./
+  links:
+    - redis
+    - postgres
+  ports:
+    - "9000:9000"
+  environment:
+    - "WAIT=10"
+    - "SECRET_KEY=secret"
+    - "SENTRY_URL_PREFIX=http://192.168.99.102:9000"
+    - "SENTRY_DB_PASSWORD=postgres"
+    - "SENTRY_REDIS_PASSWORD=redis"
