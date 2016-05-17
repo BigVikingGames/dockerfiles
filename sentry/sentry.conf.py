@@ -81,8 +81,8 @@ SENTRY_OPTIONS['redis.clusters'] = {
     'default': {
         'hosts': {
             0: {
-                'host': os.getenv('REDIS_PORT_6379_TCP_ADDR'),
-                'port': os.getenv('REDIS_PORT_6379_TCP_PORT'),
+                'host': os.getenv('REDIS_PORT_6379_TCP_ADDR') or 'localhost',
+                'port': os.getenv('REDIS_PORT_6379_TCP_PORT') or 6379,
                 'password': os.getenv('SENTRY_REDIS_PASSWORD')
             }
         }
@@ -133,9 +133,9 @@ BROKER_URL = (
     + ':'
     + os.getenv('SENTRY_REDIS_PASSWORD')
     + '@'
-    + os.getenv('REDIS_PORT_6379_TCP_ADDR')
+    + os.getenv('REDIS_PORT_6379_TCP_ADDR') or 'localhost'
     + ':'
-    + os.getenv('REDIS_PORT_6379_TCP_PORT')
+    + os.getenv('REDIS_PORT_6379_TCP_PORT') or '6379'
 )
 
 #################
