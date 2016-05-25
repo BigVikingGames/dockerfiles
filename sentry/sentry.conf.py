@@ -136,6 +136,7 @@ BROKER_URL = (
     + os.getenv('REDIS_PORT_6379_TCP_ADDR') or 'localhost'
     + ':'
     + os.getenv('REDIS_PORT_6379_TCP_PORT') or '6379'
+    + '/0'
 )
 
 #################
@@ -208,7 +209,8 @@ SENTRY_OPTIONS['mail.host'] = os.getenv('EMAIL_HOST') or 'localhost'
 SENTRY_OPTIONS['mail.password'] = os.getenv('EMAIL_HOST_PASSWORD') or ''
 SENTRY_OPTIONS['mail.username'] = os.getenv('EMAIL_HOST_USER') or ''
 SENTRY_OPTIONS['mail.port'] = int(os.getenv('EMAIL_PORT') or 25)
-SENTRY_OPTIONS['mail.use-tls'] = int(os.getenv('EMAIL_USE_TLS') or 0) > 0
+SENTRY_OPTIONS['mail.use-tls'] = bool(os.getenv('EMAIL_USE_TLS') or 0)
+SENTRY_OPTIONS['mail.list-namespace'] = os.getenv('EMAIL_LIST_NAMESPACE') or 'localhost'
 
 # The email address to send on behalf of
 SENTRY_OPTIONS['mail.from'] = os.getenv('EMAIL_FROM') or 'root@localhost'
