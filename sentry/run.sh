@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 WAIT=${WAIT:-0}
 MIGRATE=${MIGRATE:-true}
