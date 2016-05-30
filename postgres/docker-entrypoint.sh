@@ -111,15 +111,15 @@ if [ "$1" = 'postgres' ]; then
 
 		gosu postgres pg_ctl -D "$PGDATA" -m fast -w stop
 
-		# Generate postgresql.conf based on ENV
-		eval "cat <<-EOF
-			$(</postgresql.conf.tmpl)
-			EOF" > ${PGDATA}/postgresql.conf
-
 		echo
 		echo 'PostgreSQL init process complete; ready for start up.'
 		echo
 	fi
+
+	# Generate postgresql.conf based on ENV
+	eval "cat <<-EOF
+		$(</postgresql.conf.tmpl)
+		EOF" > ${PGDATA}/postgresql.conf
 
 	exec gosu postgres "$@"
 fi
