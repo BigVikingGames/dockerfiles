@@ -1,0 +1,15 @@
+postgres:
+    image: bigvikinggames/postgres
+    environment:
+        POSTGRES_PASSWORD: cachet
+
+cachet:
+    build: ./
+    links:
+        - postgres
+    ports:
+        - "8080:80"
+    environment:
+        APP_KEY: xYwwxzC6nq6HTkz9wH4VgaVvQyY82g2u
+        DB_DATABASE: postgres
+        DB_PASSWORD: cachet

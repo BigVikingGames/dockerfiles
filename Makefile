@@ -8,7 +8,7 @@ PUSH:=false
 default:
 	@echo "Please read Makefile, there is no default task!"
 
-.PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red ratticdb sentry
+.PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red ratticdb sentry php-fpm ruby cachet
 
 all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner
 
@@ -68,4 +68,8 @@ node-red: nodejs
 		docker push $(ORG)/$(@):latest; \
 	fi;
 
-
+cachet: php-fpm
+	$(BUILD) $(ORG)/$(@) ./$(@)/
+	if [ "$(PUSH)" == "true" ]; then \
+		docker push $(ORG)/$(@):latest; \
+	fi;
