@@ -12,7 +12,7 @@ default:
 
 all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner
 
-ubuntu notebook nodejs postgres gitlab-runner:
+ubuntu notebook nodejs postgres gitlab-runner php-fpm ruby:
 	$(BUILD) $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
 		docker push $(ORG)/$(@):latest; \
