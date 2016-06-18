@@ -33,15 +33,15 @@ if [ "$APP_KEY" == "null" ] || [ ${#APP_KEY} < 32 ]; then
 	exit 1
 fi
 
-cd /srv/app
-
 eval "cat <<-EOF
-	$(<./env.tmpl)
+	$(</srv/app/env.tmpl)
 	EOF" > /srv/app/.env
+chown www-data:www-data /srv/app/.env
 
 if [ ! -f /srv/app/.migrated ]; then
 	sleep 5 # wait for db
-	/usr/bin/php artisan migrate && touch /srv/app/.migrated
+	cd /srv/app
+	/usr/bin/php artisan migrate && touch .migrated
 fi
 
 exec /usr/bin/supervisord
