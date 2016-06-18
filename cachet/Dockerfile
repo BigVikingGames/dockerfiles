@@ -33,6 +33,7 @@ ADD supervisord.conf /etc/supervisor/supervisord.conf
 ADD nginx-site.conf  /etc/nginx/sites-enabled/default
 ADD php-fpm.conf     /etc/php5/fpm/php-fpm.conf
 ADD env.tmpl         /srv/app/env.tmpl
+ADD crontab          /etc/cron.d/cachet
 ADD run.sh           /run.sh
 
 CMD ["/run.sh"]
