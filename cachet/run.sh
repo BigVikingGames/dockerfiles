@@ -28,8 +28,9 @@ REDIS_HOST=${REDIS_HOST:-null}
 REDIS_DATABASE=${REDIS_DATABASE:-null}
 REDIS_PORT=${REDIS_PORT:-null}
 
-if [ "$APP_KEY" == "null" ] || [ ${#APP_KEY} < 32 ]; then
+if [ "$APP_KEY" == "null" ] || [ ${#APP_KEY} -lt 32 ]; then
 	echo "You must specify an APP_KEY of at least 32 characters!"
+    echo ${#APP_KEY}
 	exit 1
 fi
 
@@ -44,4 +45,4 @@ if [ ! -f /srv/app/.migrated ]; then
 	/usr/bin/php artisan migrate && touch .migrated
 fi
 
-exec /usr/bin/supervisord
+exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
