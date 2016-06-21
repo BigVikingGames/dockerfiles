@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+set -e
+
+WAIT_FOR=5
 
 APP_ENV=${APP_ENV:-development}
 APP_DEBUG=${APP_DEBUG:-true}
@@ -30,7 +33,6 @@ REDIS_PORT=${REDIS_PORT:-null}
 
 if [ "$APP_KEY" == "null" ] || [ ${#APP_KEY} -lt 32 ]; then
 	echo "You must specify an APP_KEY of at least 32 characters!"
-    echo ${#APP_KEY}
 	exit 1
 fi
 
@@ -40,9 +42,9 @@ eval "cat <<-EOF
 chown www-data:www-data /srv/app/.env
 
 if [ ! -f /srv/app/.migrated ]; then
-	sleep 5 # wait for db
+	sleep $WAIT_FOR # wait for db
 	cd /srv/app
-	/usr/bin/php artisan migrate && touch .migrated
+	/usr/bin/php artisan migrate --force && touch .migrated
 fi
 
 exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
