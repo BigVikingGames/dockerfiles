@@ -29,6 +29,8 @@ RUN composer install --no-ansi --no-dev --optimize-autoloader \
 
 WORKDIR /
 
+RUN touch /var/log/cron.log
+
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 ADD nginx-site.conf  /etc/nginx/sites-enabled/default
 ADD php-fpm.conf     /etc/php5/fpm/php-fpm.conf
