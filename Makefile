@@ -73,3 +73,9 @@ cachet: php-fpm
 	if [ "$(PUSH)" == "true" ]; then \
 		docker push $(ORG)/$(@):latest; \
 	fi;
+
+cachet-monitor: ubuntu
+	$(BUILD) $(ORG)/$(@) ./$(@)/
+	if [ "$(PUSH)" == "true" ]; then \
+		docker push $(ORG)/$(@):latest; \
+	fi;
