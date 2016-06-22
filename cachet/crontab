@@ -1,1 +1,1 @@
-* * * * * /usr/bin/php /srv/app/artisan schedule:run
+* * * * * root /usr/bin/php /srv/app/artisan schedule:run >> /var/log/cron.log
