@@ -13,6 +13,7 @@ RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted uni
         ca-certificates \
         openssl \
         wget \
+        unzip \
     && wget -q https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64 -O /usr/local/bin/gosu \
     && chmod +x /usr/local/bin/gosu \
     && apt-get clean \
