@@ -13,6 +13,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/
         liblapack-dev \
         libatlas-base-dev \
         gfortran \
+        vim \
     && pip install "airflow>=${AIRFLOW_VERSION}" \
     && pip install "airflow[celery]>=${AIRFLOW_VERSION}" \
     && pip install "airflow[postgres]>=${AIRFLOW_VERSION}" \
@@ -43,5 +44,8 @@ ADD generate_config.py ${AIRFLOW_HOME}/generate_config.py
 EXPOSE 8080 5555 8793
 
 WORKDIR ${AIRFLOW_HOME}
+
+# improve term type for docker exec shells
+ENV TERM=xterm
 
 ENTRYPOINT ["./run.sh"]
