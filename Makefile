@@ -1,7 +1,7 @@
 # vim: noexpandtab filetype=make
 SHELL:=/usr/bin/env bash
 ORG:=bigvikinggames
-BUILD:=docker build -t
+DOCKER:=docker
 PUSH:=false
 
 # HAHA! I lied there is a default task!
@@ -13,63 +13,63 @@ default:
 all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner cachet cachet-monitor
 
 ubuntu notebook nodejs postgres gitlab-runner php-fpm ruby cachet-monitor:
-	$(BUILD) $(ORG)/$(@) ./$(@)/
+	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
-		docker push $(ORG)/$(@):latest; \
+		$(DOCKER) push $(ORG)/$(@):latest; \
 	fi;
 
 python: ubuntu
-	$(BUILD) $(ORG)/$(@) ./$(@)/
+	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
-		docker push $(ORG)/$(@):latest; \
+		$(DOCKER) push $(ORG)/$(@):latest; \
 	fi;
 
 java: ubuntu
-	$(BUILD) $(ORG)/$(@):openjdk-7 ./$(@)/openjdk-7/
-	$(BUILD) $(ORG)/$(@):openjdk-8 ./$(@)/openjdk-8/
-	docker tag -f $(ORG)/$(@):openjdk-8 $(ORG)/$(@):latest
+	$(DOCKER) build -t $(ORG)/$(@):openjdk-7 ./$(@)/openjdk-7/
+	$(DOCKER) build -t $(ORG)/$(@):openjdk-8 ./$(@)/openjdk-8/
+	$(DOCKER) tag -f $(ORG)/$(@):openjdk-8 $(ORG)/$(@):latest
 	if [ "$(PUSH)" == "true" ]; then \
-		docker push $(ORG)/$(@):latest; \
-		docker push $(ORG)/$(@):openjdk-7; \
-		docker push $(ORG)/$(@):openjdk-8; \
+		$(DOCKER) push $(ORG)/$(@):latest; \
+		$(DOCKER) push $(ORG)/$(@):openjdk-7; \
+		$(DOCKER) push $(ORG)/$(@):openjdk-8; \
 	fi;
 
 flyway: java
-	$(BUILD) $(ORG)/$(@) ./$(@)/
+	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
-		docker push $(ORG)/$(@):latest; \
+		$(DOCKER) push $(ORG)/$(@):latest; \
 	fi;
 
 airflow: python
-	$(BUILD) $(ORG)/$(@):1.6 --build-arg AIRFLOW_VERSION='1.6,<1.7' ./$(@)/
-	$(BUILD) $(ORG)/$(@):1.7 --build-arg AIRFLOW_VERSION='1.7,<1.8' ./$(@)/
-	docker tag -f $(ORG)/$(@):1.7 $(ORG)/$(@):latest
+	$(DOCKER) build -t $(ORG)/$(@):1.6 --build-arg AIRFLOW_VERSION='1.6,<1.7' ./$(@)/
+	$(DOCKER) build -t $(ORG)/$(@):1.7 --build-arg AIRFLOW_VERSION='1.7,<1.8' ./$(@)/
+	$(DOCKER) tag -f $(ORG)/$(@):1.7 $(ORG)/$(@):latest
 	if [ "$(PUSH)" == "true" ]; then \
-		docker push $(ORG)/$(@):latest; \
-		docker push $(ORG)/$(@):1.6; \
-		docker push $(ORG)/$(@):1.7; \
+		$(DOCKER) push $(ORG)/$(@):latest; \
+		$(DOCKER) push $(ORG)/$(@):1.6; \
+		$(DOCKER) push $(ORG)/$(@):1.7; \
 	fi;
 
 ratticdb: python
-	$(BUILD) $(ORG)/$(@) ./$(@)/
+	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
-		docker push $(ORG)/$(@):latest; \
+		$(DOCKER) push $(ORG)/$(@):latest; \
 	fi;
 
 sentry: python
-	$(BUILD) $(ORG)/$(@) ./$(@)/
+	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
-		docker push $(ORG)/$(@):latest; \
+		$(DOCKER) push $(ORG)/$(@):latest; \
 	fi;
 
 node-red: nodejs
-	$(BUILD) $(ORG)/$(@) ./$(@)/
+	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
-		docker push $(ORG)/$(@):latest; \
+		$(DOCKER) push $(ORG)/$(@):latest; \
 	fi;
 
 cachet: php-fpm
-	$(BUILD) $(ORG)/$(@) ./$(@)/
+	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
-		docker push $(ORG)/$(@):latest; \
+		$(DOCKER) push $(ORG)/$(@):latest; \
 	fi;
