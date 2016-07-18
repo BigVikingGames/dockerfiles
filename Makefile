@@ -25,13 +25,17 @@ python: ubuntu
 	fi;
 
 java: ubuntu
-	$(DOCKER) build -t $(ORG)/$(@):openjdk-7 ./$(@)/openjdk-7/
-	$(DOCKER) build -t $(ORG)/$(@):openjdk-8 ./$(@)/openjdk-8/
-	$(DOCKER) tag -f $(ORG)/$(@):openjdk-8 $(ORG)/$(@):latest
+	$(DOCKER) build -t $(ORG)/$(@):openjdk-7-jre ./$(@)/openjdk-7-jre/
+	$(DOCKER) build -t $(ORG)/$(@):openjdk-8-jre ./$(@)/openjdk-8-jre/
+	$(DOCKER) build -t $(ORG)/$(@):openjdk-7-jdk ./$(@)/openjdk-7-jdk/
+	$(DOCKER) build -t $(ORG)/$(@):openjdk-8-jdk ./$(@)/openjdk-8-jdk/
+	$(DOCKER) tag -f $(ORG)/$(@):openjdk-8-jre $(ORG)/$(@):latest
 	if [ "$(PUSH)" == "true" ]; then \
 		$(DOCKER) push $(ORG)/$(@):latest; \
-		$(DOCKER) push $(ORG)/$(@):openjdk-7; \
-		$(DOCKER) push $(ORG)/$(@):openjdk-8; \
+		$(DOCKER) push $(ORG)/$(@):openjdk-7-jre; \
+		$(DOCKER) push $(ORG)/$(@):openjdk-7-jdk; \
+		$(DOCKER) push $(ORG)/$(@):openjdk-8-jre; \
+		$(DOCKER) push $(ORG)/$(@):openjdk-8-jdk; \
 	fi;
 
 flyway: java
