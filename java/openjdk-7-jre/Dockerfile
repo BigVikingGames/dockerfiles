@@ -11,6 +11,8 @@ RUN apt-get update \
         /usr/share/doc \
         /usr/share/doc-base
 
+ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre
+
 ENV SBT_VERSION 0.13.8
 RUN wget -qO- https://dl.bintray.com/sbt/native-packages/sbt/${SBT_VERSION}/sbt-${SBT_VERSION}.tgz | tar xzf - \
     && mv sbt /opt/sbt
