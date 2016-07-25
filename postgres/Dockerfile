@@ -4,7 +4,6 @@ MAINTAINER Jonathon W. Marshall <jmarshall@bigvikinggames.com>
 ENV CSTORE_VERSION 1.4
 
 RUN apt-get update \
-    && apt-get upgrade -yqq \
     && apt-get install -yqq --no-install-recommends \
         wget \
         ca-certificates \
