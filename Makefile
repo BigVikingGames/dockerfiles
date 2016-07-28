@@ -8,11 +8,11 @@ PUSH:=false
 default:
 	@echo "Please read Makefile, there is no default task!"
 
-.PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red ratticdb sentry php-fpm ruby cachet cachet-monitor
+.PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red ratticdb sentry php-fpm ruby cachet cachet-monitor minio
 
 all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner cachet cachet-monitor
 
-ubuntu notebook nodejs postgres gitlab-runner php-fpm ruby cachet-monitor:
+ubuntu notebook nodejs postgres gitlab-runner php-fpm ruby cachet-monitor minio:
 	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
 		$(DOCKER) push $(ORG)/$(@):latest; \
