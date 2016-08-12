@@ -1,0 +1,32 @@
+master:
+    build: .
+    volumes:
+        - ${PWD}/mounts/master:/var/lib/postgresql/data
+        - /etc/localtime:/etc/localtime:ro
+    environment:
+        - POSTGRES_PASSWORD=postgres
+        - WAL_LEVEL=hot_standby
+        - WAL_KEEP_SEGMENTS=32
+        - ARCHIVE_MODE=on
+        - ARCHIVE_COMMAND=cd .
+        - MAX_WAL_SENDERS=1
+        - HOT_STANDBY=on
+
+slave:
+    build: .
+    volumes:
+        - ${PWD}/mounts/slave:/var/lib/postgresql/data
+        - /etc/localtime:/etc/localtime:ro
+    links:
+        - "master:master"
+    environment:
+        - POSTGRES_PASSWORD=postgres
+        - WAL_LEVEL=hot_standby
+        - WAL_KEEP_SEGMENTS=32
+        - ARCHIVE_MODE=on
+        - ARCHIVE_COMMAND=cd .
+        - MAX_WAL_SENDERS=1
+        - HOT_STANDBY=on
+        - STANDBY_MODE=on
+        - PRIMARY_CONNINFO=host=master port=5432 user=postgres password=postgres
+        - TRIGGER_FILE=/var/lib/postgresql/data/postgresql.trigger.5432

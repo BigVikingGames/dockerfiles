@@ -12,6 +12,7 @@ RUN apt-get update \
         libprotobuf-c0-dev \
         libpq-dev \
         postgresql-server-dev-9.5 \
+        pgtop \
     && wget -q https://github.com/citusdata/cstore_fdw/archive/v${CSTORE_VERSION}.tar.gz \
     && tar xzf v${CSTORE_VERSION}.tar.gz \
     && cd /cstore_fdw-${CSTORE_VERSION} \
@@ -28,3 +29,4 @@ RUN apt-get update \
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY postgresql.conf.tmpl /postgresql.conf.tmpl
+COPY recovery.conf.tmpl   /recovery.conf.tmpl

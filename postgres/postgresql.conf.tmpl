@@ -10,6 +10,7 @@ effective_cache_size = $EFFECTIVE_CACHE_SIZE
 
 wal_buffers = $WAL_BUFFERS
 max_wal_size = $MAX_WAL_SIZE
+wal_keep_segments = $WAL_KEEP_SEGMENTS
 checkpoint_completion_target = $CHECKPOINT_COMPLETION_TARGET
 default_statistics_target = $DEFAULT_STATISTICS_TARGET
 
@@ -36,3 +37,9 @@ lc_numeric = 'en_US.utf8'
 lc_time = 'en_US.utf8'
 
 default_text_search_config = 'pg_catalog.english'
+
+wal_level = '$WAL_LEVEL'
+archive_mode = $ARCHIVE_MODE
+archive_command = '$ARCHIVE_COMMAND'
+max_wal_senders = $MAX_WAL_SENDERS
+hot_standby = $HOT_STANDBY

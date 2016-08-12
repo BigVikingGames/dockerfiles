@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+POSTGRES_USER=${POSTGRES_USER:-postgres}
 LISTEN_ADDRESSES=${LISTEN_ADDRESSES:-*}
 MAX_CONNECTIONS=${MAX_CONNECTIONS:-100}
 SHARED_BUFFERS=${SHARED_BUFFERS:-128MB}
@@ -12,6 +13,7 @@ DEFAULT_STATISTICS_TARGET=${DEFAULT_STATISTICS_TARGET:-500}
 PASSWORD_ENCRYPTION=${PASSWORD_ENCRYPTION:-on}
 MAX_WAL_SIZE=${MAX_WAL_SIZE:-1GB}
 WAL_BUFFERS=${WAL_BUFFERS:-8MB}
+WAL_KEEP_SEGMENTS=${WAL_KEEP_SEGMENTS:-0}
 SYSLOG_FACILITY=${SYSLOG_FACILITY:-LOCAL0}
 LOG_MIN_DURATION_STATEMENT=${LOG_MIN_DURATION_STATEMENT:--1}
 LOG_LINE_PREFIX=${LOG_LINE_PREFIX:-'%t - %u@%h/%d - '}
@@ -21,12 +23,21 @@ CLIENT_MIN_MESSAGES=${CLIENT_MIN_MESSAGES:-NOTICE}
 AUTO_EXPLAIN_LOG_ANALYZE=${AUTO_EXPLAIN_LOG_ANALYZE:-off}
 AUTO_EXPLAIN_LOG_MIN_DURATION=${AUTO_EXPLAIN_LOG_MIN_DURATION:--1}
 SHARED_PRELOAD_LIBRARIES=${SHARED_PRELOAD_LIBRARIES:-'cstore_fdw, tablefunc'}
+WAL_LEVEL=${WAL_LEVEL:-'minimal'}
+ARCHIVE_MODE=${ARCHIVE_MODE:-off}
+ARCHIVE_COMMAND=${ARCHIVE_COMMAND:-'cd .'}
+MAX_WAL_SENDERS=${MAX_WAL_SENDERS:-0}
+HOT_STANDBY=${HOT_STANDBY:-off}
+STANDBY_MODE=${STANDBY_MODE:-off}
+PRIMARY_CONNINFO=${PRIMARY_CONNINFO:-''}
+TRIGGER_FILE=${TRIGGER_FILE:-''}
 
 export LISTEN_ADDRESSES MAX_CONNECTIONS SHARED_BUFFERS EFFECTIVE_CACHE_SIZE WORK_MEM
 export MAINTENANCE_WORK_MEM CHECKPOINT_COMPLETION_TARGET DEFAULT_STATISTICS_TARGET
-export PASSWORD_ENCRYPTION MAX_WAL_SIZE WAL_BUFFERS LOG_MIN_DURATION_STATEMENT
+export PASSWORD_ENCRYPTION MAX_WAL_SIZE WAL_BUFFERS WAL_KEEP_SEGMENTS LOG_MIN_DURATION_STATEMENT
 export LOG_LINE_PREFIX AUTO_EXPLAIN_LOG_ANALYZE AUTO_EXPLAIN_LOG_MIN_DURATION
-export SHARED_PRELOAD_LIBRARIES
+export SHARED_PRELOAD_LIBRARIES WAL_LEVEL ARCHIVE_MODE MAX_WAL_SENDERS HOT_STANDBY
+export STANDBY_MODE PRIMARY_CONNINFO TRIGGER_FILE
 
 if [ "$1" = 'postgres' ]; then
 	mkdir -p "$PGDATA"
@@ -65,9 +76,14 @@ if [ "$1" = 'postgres' ]; then
 			authMethod=trust
 		fi
 
-		{ echo; echo "host all all 0.0.0.0/0 $authMethod"; } >> "$PGDATA/pg_hba.conf"
+		{
+			echo;
+            echo "host replication all 0.0.0.0/0 $authMethod";
+            echo;
+			echo "host all all 0.0.0.0/0 $authMethod";
+		} >> "$PGDATA/pg_hba.conf"
 
-		# internal start of server in order to allow set-up using psql-client		
+		# internal start of server in order to allow set-up using psql-client
 		# does not listen on TCP/IP and waits until start finishes
 		gosu postgres pg_ctl -D "$PGDATA" \
 			-o "-c listen_addresses=''" \
@@ -120,6 +136,13 @@ if [ "$1" = 'postgres' ]; then
 	eval "cat <<-EOF
 		$(</postgresql.conf.tmpl)
 		EOF" > ${PGDATA}/postgresql.conf
+
+	# Generate recovery.conf based on ENV
+	if [ "$STANDBY_MODE" != "off" ]; then
+		eval "cat <<-EOF
+			$(</recovery.conf.tmpl)
+			EOF" > ${PGDATA}/recovery.conf
+	fi
 
 	exec gosu postgres "$@"
 fi
