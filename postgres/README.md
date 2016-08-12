@@ -8,7 +8,7 @@ More documentation coming soon...
 
 This image now supports master/slave replication and the docker-compose.yml can be used for testing though there are still some manual steps involved.
 
-The steps are essentially the same as those describe in the (Postgresql Wiki for Binary Replication)[https://wiki.postgresql.org/wiki/Binary_Replication_Tutorial] but slightly different since we're using local containers.
+The steps are essentially the same as those described in the [PostgreSQL Wiki for Binary Replication](https://wiki.postgresql.org/wiki/Binary_Replication_Tutorial) but slightly different since we're using local containers.
 
 ### 1. Bring the master online.
 
