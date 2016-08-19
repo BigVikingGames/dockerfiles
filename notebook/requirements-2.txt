@@ -13,3 +13,8 @@ scikit-learn
 Jinja2
 annoy
 plotly
+pykafka
+confluent_common
+confluent_client
+confluent-kafka
+confluent_schema_registry_client
