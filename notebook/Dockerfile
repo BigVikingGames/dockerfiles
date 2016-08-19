@@ -1,8 +1,10 @@
-FROM jupyter/notebook:latest
+FROM jupyter/datascience-notebook:latest
 MAINTAINER Jonathon W. Marshall <jmarshall@bigvikinggames.com>
 
 ARG LIBRDKAFKA_VERSION
 ENV LIBRDKAFKA_VERSION ${LIBRDKAFKA_VERSION:-0.9.1}
+
+USER root
 
 RUN apt-get update \
     && apt-get install -yqq --no-install-recommends \
@@ -35,7 +37,7 @@ RUN wget -qO- https://github.com/edenhill/librdkafka/archive/${LIBRDKAFKA_VERSIO
     && ./configure \
     && make \
     && make install \
-    && cd \
+    && cd ../ \
     && rm -rf librdkafka-${LIBRDKAFKA_VERSION}
 
 COPY requirements-2.txt /requirements-2.txt
@@ -44,4 +46,4 @@ COPY requirements-3.txt /requirements-3.txt
 RUN pip2 --no-cache-dir install -r /requirements-2.txt \
     && pip3 --no-cache-dir install -r /requirements-3.txt
 
-CMD ["jupyter", "notebook", "--no-browser"]
+USER $NB_USER

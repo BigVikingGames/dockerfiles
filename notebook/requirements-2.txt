@@ -1,7 +1,3 @@
-pandas
-numpy
-scipy
-matplotlib
 lifetimes
 statsmodels
 MySQL-python
@@ -9,7 +5,6 @@ postgres
 psycopg2
 SQLAlchemy
 seaborn
-scikit-learn
 Jinja2
 annoy
 plotly
