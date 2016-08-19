@@ -46,4 +46,6 @@ COPY requirements-3.txt /requirements-3.txt
 RUN pip2 --no-cache-dir install -r /requirements-2.txt \
     && pip3 --no-cache-dir install -r /requirements-3.txt
 
+RUN ln -s $HOME/work /notebooks
+
 USER $NB_USER
