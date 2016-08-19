@@ -43,3 +43,5 @@ COPY requirements-3.txt /requirements-3.txt
 
 RUN pip2 --no-cache-dir install -r /requirements-2.txt \
     && pip3 --no-cache-dir install -r /requirements-3.txt
+
+CMD ["jupyter", "notebook", "--no-browser"]
