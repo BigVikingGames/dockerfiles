@@ -12,7 +12,7 @@ default:
 
 all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner cachet cachet-monitor
 
-ubuntu notebook nodejs postgres gitlab-runner php-fpm ruby cachet-monitor minio:
+ubuntu notebook nodejs postgres gitlab-runner php-fpm ruby cachet-monitor minio confluent-platform:
 	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
 	if [ "$(PUSH)" == "true" ]; then \
 		$(DOCKER) push $(ORG)/$(@):latest; \
