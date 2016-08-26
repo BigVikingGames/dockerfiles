@@ -8,7 +8,7 @@ PUSH:=false
 default:
 	@echo "Please read Makefile, there is no default task!"
 
-.PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red ratticdb sentry php-fpm ruby cachet cachet-monitor minio
+.PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red ratticdb sentry php-fpm ruby cachet cachet-monitor minio confluent-platform
 
 all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner cachet cachet-monitor
 
