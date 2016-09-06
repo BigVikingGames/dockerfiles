@@ -24,6 +24,7 @@ RUN apt-get update \
       gfortran \
     && ln -s /usr/include/freetype2/ft2build.h /usr/include/ \
     && pip2 install --src /usr/local/src --process-dependency-links git+https://github.com/pymc-devs/pymc3 \
+    && bash -c "source activate python2 && conda install mkl-service mlk-rt" \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
        /tmp/* \
