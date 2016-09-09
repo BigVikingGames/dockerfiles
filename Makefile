@@ -29,7 +29,7 @@ java: ubuntu
 	$(DOCKER) build -t $(ORG)/$(@):openjdk-8-jre ./$(@)/openjdk-8-jre/
 	$(DOCKER) build -t $(ORG)/$(@):openjdk-7-jdk ./$(@)/openjdk-7-jdk/
 	$(DOCKER) build -t $(ORG)/$(@):openjdk-8-jdk ./$(@)/openjdk-8-jdk/
-	$(DOCKER) tag -f $(ORG)/$(@):openjdk-8-jre $(ORG)/$(@):latest
+	$(DOCKER) tag $(ORG)/$(@):openjdk-8-jre $(ORG)/$(@):latest
 	if [ "$(PUSH)" == "true" ]; then \
 		$(DOCKER) push $(ORG)/$(@):latest; \
 		$(DOCKER) push $(ORG)/$(@):openjdk-7-jre; \
@@ -44,10 +44,17 @@ flyway: java
 		$(DOCKER) push $(ORG)/$(@):latest; \
 	fi;
 
+flink: java
+	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/
+	if [ "$(PUSH)" == "true" ]; then \
+		$(DOCKER) push $(ORG)/$(@):latest; \
+	fi;
+
+
 airflow: python
 	$(DOCKER) build -t $(ORG)/$(@):1.6 --build-arg AIRFLOW_VERSION='1.6,<1.7' ./$(@)/
 	$(DOCKER) build -t $(ORG)/$(@):1.7 --build-arg AIRFLOW_VERSION='1.7,<1.8' ./$(@)/
-	$(DOCKER) tag -f $(ORG)/$(@):1.7 $(ORG)/$(@):latest
+	$(DOCKER) tag $(ORG)/$(@):1.7 $(ORG)/$(@):latest
 	if [ "$(PUSH)" == "true" ]; then \
 		$(DOCKER) push $(ORG)/$(@):latest; \
 		$(DOCKER) push $(ORG)/$(@):1.6; \

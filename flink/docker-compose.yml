@@ -1,0 +1,14 @@
+jobmanager:
+  build: .
+  ports:
+    - "6123:6123"
+    - "8081:8081"
+  command: jobmanager
+
+taskmanager:
+  build: .
+  links:
+    - jobmanager
+  environment:
+    - JOBMANAGER_RPC_ADDRESS=jobmanager
+  command: taskmanager
