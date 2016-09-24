@@ -17,7 +17,7 @@ sentry:
     - "9000:9000"
   environment:
     - "WAIT=10"
-    - "SECRET_KEY=secret"
-    - "SENTRY_URL_PREFIX=http://192.168.99.102:9000"
+    - "SENTRY_SECRET_KEY=secret"
+    - "SENTRY_URL_PREFIX=http://192.168.99.100:9000"
     - "SENTRY_DB_PASSWORD=postgres"
     - "SENTRY_REDIS_PASSWORD=redis"

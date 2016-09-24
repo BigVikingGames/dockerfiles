@@ -1,0 +1,4 @@
+sentry-github
+sentry-jira
+https://github.com/getsentry/sentry-hipchat-ac/archive/master.zip
+https://github.com/getsentry/sentry-pushover/archive/master.zip
