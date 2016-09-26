@@ -4,6 +4,7 @@ MAINTAINER Jonathon W. Marshall "jmarshall@bigvikinggames.com"
 ARG SENTRY_VERSION
 ENV SENTRY_VERSION ${SENTRY_VERSION:-8.8.0}
 ENV SENTRY_HOME /home/sentry
+ENV SENTRY_CONFIG ${SENTRY_HOME}/.sentry/sentry.conf.py
 
 RUN apt-get update \
     && apt-get install -yqq --no-install-recommends \
