@@ -12,6 +12,9 @@ RUN wget -q \
     http://central.maven.org/maven2/com/getsentry/raven/raven-log4j/${RAVEN_VERSION}/raven-log4j-${RAVEN_VERSION}.jar \
     -O /usr/share/java/raven-log4j-${RAVEN_VERSION}.jar \
     && wget -q \
+    http://central.maven.org/maven2/com/getsentry/raven/raven/${RAVEN_VERSION}/raven-${RAVEN_VERSION}.jar \
+    -O /usr/share/java/raven-${RAVEN_VERSION}.jar \
+    && wget -q \
     http://repo1.maven.org/maven2/org/slf4j/slf4j-jdk14/${LOG4J_JDK14_VERSION}/slf4j-jdk14-${LOG4J_JDK14_VERSION}.jar \
     -O /usr/share/java/slf4j-jdk14-${LOG4J_JDK14_VERSION}.jar
 
