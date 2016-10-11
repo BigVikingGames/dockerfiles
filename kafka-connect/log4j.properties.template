@@ -1,5 +1,8 @@
-
+{% if env['SENTRY_DSN'] %}
+log4j.rootLogger={{ env["CONNECT_LOG4J_ROOT_LOGLEVEL"] | default('INFO') }}, stdout, SentryAppender
+{% else %}
 log4j.rootLogger={{ env["CONNECT_LOG4J_ROOT_LOGLEVEL"] | default('INFO') }}, stdout
+{% endif %}
 
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
 log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
@@ -13,9 +16,9 @@ log4j.logger.{{logger}}={{loglevel}}, stdout
 {% endif %}
 
 {% if env['SENTRY_DSN'] %}
-.level={{ env['SENTRY_LOG_LEVEL'] | default('WARN') }}
-handlers={{ env["SENTRY_HANDLERS"] | default('com.getsentry.raven.jul.SentryHandler') }}
-com.getsentry.raven.jul.SentryHandler.dsn={{ env["SENTRY_DSN"] }}
-com.getsentry.raven.jul.SentryHandler.tags={{ env["SENTRY_TAGS"] }}
-com.getsentry.raven.jul.SentryHandler.ravenFactory={{ env["SENTRY_RAVEN_FACTORY"] | default('com.getsentry.raven.DefaultRavenFactory') }}
+log4j.appender.SentryAppender=com.getsentry.raven.log4j.SentryAppender
+log4j.appender.SentryAppender.threshold={{ env['SENTRY_LOG_LEVEL'] | default('WARN') }}
+log4j.appender.SentryAppender.dsn={{ env["SENTRY_DSN"] }}
+log4j.appender.SentryAppender.tags={{ env["SENTRY_TAGS"] }}
+log4j.appender.SentryAppender.ravenFactory={{ env["SENTRY_RAVEN_FACTORY"] | default('com.getsentry.raven.DefaultRavenFactory') }}
 {% endif %}
