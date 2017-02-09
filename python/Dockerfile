@@ -14,10 +14,11 @@ RUN apt-get update \
         zlib1g-dev \
         git \
     && pip install --upgrade pip \
-    && pip install cryptography \
-    && pip install pyOpenSSL \
-    && pip install ndg-httpsclient \
-    && pip install pyasn1 \
+    && pip install --upgrade setuptools \
+    && pip install --upgrade cryptography \
+    && pip install --upgrade pyOpenSSL \
+    && pip install --upgrade ndg-httpsclient \
+    && pip install --upgrade pyasn1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
         /tmp/* \
