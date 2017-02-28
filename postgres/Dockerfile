@@ -12,6 +12,10 @@ RUN apt-get update \
         protobuf-c-compiler \
         libprotobuf-c0-dev \
         libpq-dev \
+        libssl-dev \
+        libcrypto++-dev \
+        libkrb5-dev \
+        liblz-dev \
         postgresql-server-dev-9.5 \
         pgtop \
         unzip \
