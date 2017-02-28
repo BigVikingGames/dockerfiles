@@ -1,0 +1,168 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: sentry-postgres-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/sentry-postgres
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: sentry-postgres-pv-claim
+  labels:
+    app: sentry
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentry-postgres
+  labels:
+    app: sentry
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: sentry
+    tier: postgres
+  clusterIP: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentry-redis
+  labels:
+    app: sentry
+spec:
+  ports:
+    - port: 6379
+  selector:
+    app: sentry
+    tier: redis
+  clusterIP: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentry-app
+  labels:
+    app: sentry
+spec:
+  type: NodePort
+  ports:
+    - port: 9000
+  selector:
+    app: sentry
+    tier: app
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentry-postgres
+  labels:
+    app: sentry
+    tier: postgres
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentry
+        tier: postgres
+    spec:
+      volumes:
+        - name: sentry-postgres-pv
+          persistentVolumeClaim:
+            claimName: sentry-postgres-pv-claim
+      containers:
+        - name: postgres
+          image: bigvikinggames/postgres
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: sentry-postgres-pv
+          env:
+            - name: POSTGRES_PASSWORD
+              value: sentry
+            - name: POSTGRES_USER
+              value: sentry
+            - name: POSTGRES_DB
+              value: sentry
+          ports:
+            - containerPort: 5432
+              name: sentry-postgres
+              protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentry-redis
+  labels:
+    app: sentry
+    tier: redis
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentry
+        tier: redis
+    spec:
+      containers:
+        - name: redis
+          image: bigvikinggames/redis
+          env:
+            - name: REDIS_REQUIREPASS
+              value: sentry
+          ports:
+            - containerPort: 6379
+              name: sentry-redis
+              protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentry-app
+  labels:
+    app: sentry
+    tier: app
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: sentry
+        tier: app
+    spec:
+      containers:
+        - name: sentry
+          image: bigvikinggames/sentry
+          env:
+            - name: WAIT
+              value: "10"
+            - name: SENTRY_SECRET_KEY
+              value: secret
+            - name: SENTRY_POSTGRES_HOST
+              value: sentry-postgres
+            - name: SENTRY_DB_USER
+              value: sentry
+            - name: SENTRY_DB_PASSWORD
+              value: sentry
+            - name: SENTRY_REDIS_HOST
+              value: sentry-redis
+            - name: SENTRY_REDIS_PASSWORD
+              value: sentry
+          ports:
+            - containerPort: 9000
+              name: sentry-http
+              protocol: TCP
