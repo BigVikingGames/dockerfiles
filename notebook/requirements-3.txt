@@ -8,3 +8,4 @@ Jinja2
 palladium
 google-cloud-bigquery
 google-cloud-storage
+google-api-python-client

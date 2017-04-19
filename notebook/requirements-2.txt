@@ -15,3 +15,4 @@ confluent-kafka
 confluent_schema_registry_client
 google-cloud-bigquery
 google-cloud-storage
+google-api-python-client
