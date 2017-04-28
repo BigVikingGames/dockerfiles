@@ -27,6 +27,7 @@ case $1 in
             echo "Skipping flyway migrations! Please set the FLYWAY_URL variable if you wish to run additional migrations."
         fi
         gosu airflow airflow initdb
+        gosu airflow airflow upgradedb
         ;;
     airflow)
         exec gosu airflow $@
