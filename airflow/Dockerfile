@@ -1,7 +1,7 @@
 FROM bigvikinggames/python
 
 ARG AIRFLOW_VERSION
-ENV AIRFLOW_VERSION ${AIRFLOW_VERSION:-1.7}
+ENV AIRFLOW_VERSION ${AIRFLOW_VERSION:-1.8}
 
 ENV AIRFLOW_HOME /usr/local/airflow
 RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/apt/sources.list.d/openjdk-r-ppa-trusty.list \
