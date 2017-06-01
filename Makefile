@@ -52,14 +52,10 @@ flink: java
 
 
 airflow: python
-	$(DOCKER) build -t $(ORG)/$(@):1.6 --build-arg AIRFLOW_VERSION='1.6,<1.7' ./$(@)/
-	$(DOCKER) build -t $(ORG)/$(@):1.7 --build-arg AIRFLOW_VERSION='1.7,<1.8' ./$(@)/
 	$(DOCKER) build -t $(ORG)/$(@):1.8 --build-arg AIRFLOW_VERSION='1.8,<1.9' ./$(@)/
 	$(DOCKER) tag $(ORG)/$(@):1.8 $(ORG)/$(@):latest
 	if [ "$(PUSH)" == "true" ]; then \
 		$(DOCKER) push $(ORG)/$(@):latest; \
-		$(DOCKER) push $(ORG)/$(@):1.6; \
-		$(DOCKER) push $(ORG)/$(@):1.7; \
 		$(DOCKER) push $(ORG)/$(@):1.8; \
 	fi;
 

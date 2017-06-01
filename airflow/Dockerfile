@@ -14,11 +14,11 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/
         libatlas-base-dev \
         gfortran \
         vim \
-    && pip install "airflow>=${AIRFLOW_VERSION}" \
-    && pip install "airflow[celery]>=${AIRFLOW_VERSION}" \
-    && pip install "airflow[postgres]>=${AIRFLOW_VERSION}" \
-    && pip install "airflow[mysql]>=${AIRFLOW_VERSION}" \
-    && pip install "airflow[s3]>=${AIRFLOW_VERSION}" \
+    && pip install "apache-airflow>=${AIRFLOW_VERSION}" \
+    && pip install "apache-airflow[celery]>=${AIRFLOW_VERSION}" \
+    && pip install "apache-airflow[postgres]>=${AIRFLOW_VERSION}" \
+    && pip install "apache-airflow[mysql]>=${AIRFLOW_VERSION}" \
+    && pip install "apache-airflow[s3]>=${AIRFLOW_VERSION}" \
     && pip install celery[redis] \
     && pip install scipy \
     && pip install scikit-learn \
