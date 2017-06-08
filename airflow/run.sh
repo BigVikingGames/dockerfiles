@@ -20,7 +20,7 @@ fi
 ./generate_config.py > ${AIRFLOW_HOME}/airflow.cfg
 
 echo $GCLOUD_SERVICE_ACCOUNT_CREDS > /tmp/creds.json
-gcloud auth activate-service-account $GCLOUD_SERVICE_ACCOUNT --key-file=/tmp/creds.json
+gosu airflow gcloud auth activate-service-account $GCLOUD_SERVICE_ACCOUNT --key-file=/tmp/creds.json
 rm /tmp/creds.json
 
 case $1 in
