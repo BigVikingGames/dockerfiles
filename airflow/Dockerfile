@@ -32,6 +32,13 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/
         /usr/share/doc \
         /usr/share/doc-base
 
+RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" \
+    && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - \
+    && apt-get update \
+    && apt-get install -yqq --no-install-recommends \
+        google-cloud-sdk
+
 ENV FLYWAY_VERSION 3.2.1
 RUN wget -qO- http://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}.tar.gz | tar xzf - \
     && mv flyway-${FLYWAY_VERSION} /opt/flyway-${FLYWAY_VERSION}
