@@ -35,7 +35,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/
 # support long running tasks that take longer than an hour
 # http://docs.celeryproject.org/en/latest/getting-started/brokers/redis.html#id1
 # need this until AIRFLOW-966 is fixed
-RUN sed '/BROKER_URL/ a \ \ \ \ BROKER_TRANSPORT_OPTIONS = {"visibility_timeout": 43200}' /usr/local/lib/python2.7/dist-packages/airflow/executors/celery_executor.py
+RUN sed -i '/BROKER_URL/ a \ \ \ \ BROKER_TRANSPORT_OPTIONS = {"visibility_timeout": 43200}' /usr/local/lib/python2.7/dist-packages/airflow/executors/celery_executor.py
 
 RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" \
     && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
