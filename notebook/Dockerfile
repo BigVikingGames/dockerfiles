@@ -49,4 +49,6 @@ RUN pip2 --no-cache-dir install -r /requirements-2.txt \
 
 RUN ln -s $HOME/work /notebooks
 
+RUN conda install -y -c conda-forge bqplot
+
 USER $NB_USER

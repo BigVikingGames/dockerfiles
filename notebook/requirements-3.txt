@@ -9,3 +9,5 @@ palladium
 google-cloud-bigquery
 google-cloud-storage
 google-api-python-client
+mysqlclient
+pygal
