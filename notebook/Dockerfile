@@ -25,6 +25,7 @@ RUN apt-get update \
     && ln -s /usr/include/freetype2/ft2build.h /usr/include/ \
     && pip2 install --src /usr/local/src --process-dependency-links git+https://github.com/pymc-devs/pymc3 \
     && bash -c "source activate python2 && conda install mkl mkl-service mkl-rt" \
+    && conda install -y -c conda-forge bqplot \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
        /tmp/* \
@@ -49,6 +50,5 @@ RUN pip2 --no-cache-dir install -r /requirements-2.txt \
 
 RUN ln -s $HOME/work /notebooks
 
-RUN conda install -y -c conda-forge bqplot
 
 USER $NB_USER
