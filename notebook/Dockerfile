@@ -45,8 +45,8 @@ RUN wget -qO- https://github.com/edenhill/librdkafka/archive/${LIBRDKAFKA_VERSIO
 COPY requirements-2.txt /requirements-2.txt
 COPY requirements-3.txt /requirements-3.txt
 
-RUN pip2 --no-cache-dir install -r /requirements-2.txt \
-    && pip3 --no-cache-dir install -r /requirements-3.txt
+RUN pip2 --no-cache-dir install --ignore-installed -r /requirements-2.txt \
+    && pip3 --no-cache-dir install --ignore-installed -r /requirements-3.txt
 
 RUN ln -s $HOME/work /notebooks
 
