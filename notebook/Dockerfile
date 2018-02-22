@@ -23,8 +23,8 @@ RUN apt-get update \
       libsasl2-dev \
       gfortran \
     && ln -s /usr/include/freetype2/ft2build.h /usr/include/ \
-    && pip2 install --src /usr/local/src --process-dependency-links git+https://github.com/pymc-devs/pymc3 \
-    && bash -c "source activate python2 && conda install mkl mkl-service mkl-rt" \
+    && pip --no-cache-dir install pymc3 \
+    && conda install mkl mkl-service mkl-rt \
     && conda install -y -c conda-forge bqplot \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
@@ -42,11 +42,9 @@ RUN wget -qO- https://github.com/edenhill/librdkafka/archive/${LIBRDKAFKA_VERSIO
     && cd ../ \
     && rm -rf librdkafka-${LIBRDKAFKA_VERSION}
 
-COPY requirements-2.txt /requirements-2.txt
 COPY requirements-3.txt /requirements-3.txt
 
-RUN pip2 --no-cache-dir install --ignore-installed -r /requirements-2.txt \
-    && pip3 --no-cache-dir install --ignore-installed -r /requirements-3.txt
+RUN pip --no-cache-dir install --ignore-installed -r /requirements-3.txt
 
 RUN ln -s $HOME/work /notebooks
 
