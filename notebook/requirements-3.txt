@@ -1,3 +1,4 @@
+lifetimes
 statsmodels
 postgres
 psycopg2
@@ -6,8 +7,16 @@ seaborn
 scikit-learn
 Jinja2
 palladium
+annoy
+plotly
+pykafka
+confluent_common
+confluent_client
+confluent-kafka
+confluent_schema_registry_client
 google-cloud-bigquery
 google-cloud-storage
 google-api-python-client
 mysqlclient
 pygal
+pandas-gbq
