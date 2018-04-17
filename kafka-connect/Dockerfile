@@ -1,4 +1,4 @@
-FROM confluentinc/cp-kafka-connect:3.0.1-3
+FROM confluentinc/cp-kafka-connect:3.2.2-1
 MAINTAINER Jonathon W. Marshall <jmarshall@bigvikinggames.com>
 
 ENV MYSQL_DRIVER_VERSION ${MYSQL_DRIVER_VERSION:-5.1.39}
