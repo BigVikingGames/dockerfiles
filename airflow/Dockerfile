@@ -4,7 +4,7 @@ ARG AIRFLOW_VERSION
 ENV AIRFLOW_VERSION ${AIRFLOW_VERSION:-1.8}
 
 ENV AIRFLOW_HOME /usr/local/airflow
-RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/apt/sources.list.d/openjdk-r-ppa-trusty.list \
+RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu xenial main" > /etc/apt/sources.list.d/openjdk-r-ppa-xenial.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86F44E2A \
     && apt-get update \
     && apt-get install -yqq --no-install-recommends \
@@ -22,6 +22,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" > /etc/
     && pip install celery[redis] \
     && pip install scipy \
     && pip install scikit-learn \
+    && pip install elasticsearch==5.5.1 \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
     && chown -R airflow: ${AIRFLOW_HOME} \
     && apt-get clean \
