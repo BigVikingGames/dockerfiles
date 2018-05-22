@@ -13,7 +13,7 @@ RUN apt-get update \
         libssl-dev \
         zlib1g-dev \
         git \
-    && pip install --upgrade pip \
+    && pip install --upgrade pip==9.0.3 \
     && pip install --upgrade setuptools \
     && pip install --upgrade cryptography \
     && pip install --upgrade pyOpenSSL \
