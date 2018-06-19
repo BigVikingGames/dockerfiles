@@ -22,4 +22,3 @@ pygal
 pandas-gbq
 matplotlib_venn
 user_agents
-pandasql
