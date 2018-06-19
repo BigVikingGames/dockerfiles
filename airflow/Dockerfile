@@ -22,6 +22,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu xenial main" > /etc/
     && pip install celery[redis] \
     && pip install scipy \
     && pip install scikit-learn \
+    && pip install surprise \
     && pip install elasticsearch==5.5.1 \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
     && chown -R airflow: ${AIRFLOW_HOME} \
