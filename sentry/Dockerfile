@@ -27,7 +27,7 @@ RUN apt-get update \
     && useradd --create-home --home-dir ${SENTRY_HOME} -g sentry sentry \
     && pip install \
         psycopg2 \
-        redis \
+        redis==2.10.5 \
         hiredis \
         nydus \
         sentry==${SENTRY_VERSION}
