@@ -10,7 +10,7 @@ RUN apt-get update \
     && apt-get install -yqq --no-install-recommends \
       wget \
       build-essential \
-      libpng12-dev \
+      libpng-dev \
       libfreetype6-dev \
       libopenblas-dev \
       liblapack-dev \
@@ -22,10 +22,6 @@ RUN apt-get update \
       liblz4-dev \
       libsasl2-dev \
       gfortran \
-    && ln -s /usr/include/freetype2/ft2build.h /usr/include/ \
-    && pip --no-cache-dir install pymc3 \
-    && conda install mkl mkl-service mkl-rt \
-    && conda install -y -c conda-forge bqplot \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
        /tmp/* \
@@ -33,6 +29,13 @@ RUN apt-get update \
        /usr/share/man \
        /usr/share/doc \
        /usr/share/doc-base
+
+RUN ln -s /usr/include/freetype2/ft2build.h /usr/include/
+
+RUN pip --no-cache-dir uninstall -y numpy # fix weird problem
+RUN conda update conda \
+    && conda install -y pymc3 anaconda bqplot \
+    && rm -rf /tmp/* /var/tmp/*
 
 RUN wget -qO- https://github.com/edenhill/librdkafka/archive/${LIBRDKAFKA_VERSION}.tar.gz | tar xzf - \
     && cd librdkafka-${LIBRDKAFKA_VERSION} \
@@ -45,6 +48,14 @@ RUN wget -qO- https://github.com/edenhill/librdkafka/archive/${LIBRDKAFKA_VERSIO
 COPY requirements-3.txt /requirements-3.txt
 
 RUN pip --no-cache-dir install --ignore-installed -r /requirements-3.txt
+
+RUN mkdir extractapi \
+	&& wget -q https://downloads.tableau.com/tssoftware/extractapi-py-linux-x86_64-2019-1-3.tar.gz -O extractapi.tar.gz \
+	&& tar -xvf extractapi.tar.gz -C extractapi --strip 1 \
+	&& rm extractapi.tar.gz \
+	&& cd extractapi \
+	&& python setup.py build install \
+	&& cd .. && rm -r extractapi
 
 RUN ln -s $HOME/work /notebooks
 

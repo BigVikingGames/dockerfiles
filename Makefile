@@ -10,7 +10,7 @@ default:
 
 .PHONY: ubuntu notebook nodejs postgres gitlab-runner java flyway airflow node-red ratticdb sentry php-fpm ruby cachet cachet-monitor minio confluent-platform kafka-connect
 
-all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner cachet cachet-monitor
+all: ubuntu python java flyway airflow nodejs node-red postgres gitlab-runner cachet cachet-monitor notebook
 
 ubuntu notebook nodejs postgres gitlab-runner php-fpm ruby cachet-monitor minio confluent-platform kafka-connect:
 	$(DOCKER) build -t $(ORG)/$(@) ./$(@)/

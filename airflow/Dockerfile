@@ -46,6 +46,14 @@ RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" \
     && apt-get install -yqq --no-install-recommends \
         google-cloud-sdk
 
+RUN mkdir extractapi \
+	&& wget -q https://downloads.tableau.com/tssoftware/extractapi-py-linux-x86_64-2019-1-3.tar.gz -O extractapi.tar.gz \
+	&& tar -xvf extractapi.tar.gz -C extractapi --strip 1 \
+	&& rm extractapi.tar.gz \
+	&& cd extractapi \
+	&& python setup.py build install \
+	&& cd .. && rm -r extractapi
+
 ENV FLYWAY_VERSION 3.2.1
 RUN wget -qO- http://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}.tar.gz | tar xzf - \
     && mv flyway-${FLYWAY_VERSION} /opt/flyway-${FLYWAY_VERSION}
