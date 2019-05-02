@@ -24,6 +24,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu xenial main" > /etc/
     && pip install scikit-learn \
     && pip install surprise \
     && pip install elasticsearch==5.5.1 \
+	&& pip install tableauserverclient \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
     && chown -R airflow: ${AIRFLOW_HOME} \
     && apt-get clean \
